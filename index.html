@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Recipe Finder</title>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Search for a dish..."
+        class="search-bar"
+      />
+      <span class="status-message">Result will be displayed here...</span>
+    </div>
+
+    <div class="results-container"></div>
+
+    <div class="recipe-modal">
+      <span class="close-modal" onclick="closeRecipeModal()">✖</span>
+      <span class="recipe-content"></span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
