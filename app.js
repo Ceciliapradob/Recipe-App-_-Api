@@ -1,76 +1,114 @@
-/* =========================
-   JavaScript Code
-   ========================= */
+// Selección de elementos del DOM
+const userInput = document.querySelector('.container .search-box input');
+const resultBox = document.querySelector('.container .result-box');
+const instructionBox = document.querySelector('.container .recipe-box .Instructions');
+const recipeBox = document.querySelector('.container .recipe-box');
 
-// DOM elements for interaction
-const searchBar = document.querySelector('.search-bar'); // Search input field
-const resultsContainer = document.querySelector('.results-container'); // Container for results
-const recipeModal = document.querySelector('.recipe-modal'); // Modal to display recipe
-const statusMessage = document.querySelector('.status-message'); // Status message for feedback
-
-// Base URL for the MealDB API
+// URL base de la API
 const API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
 
-// Event listener for search bar to trigger API call on Enter key
-searchBar.addEventListener('keyup', (e) => {
-  const query = searchBar.value.trim(); // Trim whitespace from input
-  if (query && e.key === 'Enter') {
-    fetchRecipe(query); // Call fetch function with the query
+// Evento para detectar cuando el usuario escribe en el cuadro de búsqueda
+userInput.addEventListener('keyup', (event) => {
+  const dishName = userInput.value.trim(); // Elimina espacios adicionales
+  if (dishName && event.key === 'Enter') { // Comprueba si el campo no está vacío y si se presionó Enter
+    getFood(dishName); // Llama a la función para obtener los datos de la API
   }
 });
 
-// Fetch recipe data from API based on user query
-const fetchRecipe = (query) => {
-  statusMessage.textContent = 'Please wait, it takes some time...'; // Show loading message
-  fetch(API_URL + query) // Fetch data from API
-    .then((res) => res.json()) // Parse JSON response
-    .then((data) => {
-      if (data.meals) { // Check if meals exist in response
-        const meal = data.meals[0]; // Get the first meal
-        const ingredients = []; // Array to store ingredients
-        let count = 1; // Counter for ingredients
+/**
+ * Obtiene información sobre un platillo desde la API y actualiza el DOM
+ * @param {string} dishName - Nombre del platillo a buscar
+ */
+const getFood = async (dishName) => {
+  // Muestra un mensaje de carga mientras se obtienen los datos
+  const displayMessage = document.querySelector('.container .displaying-message');
+  displayMessage.innerHTML = "Cargando, por favor espera...";
+  displayMessage.style.display = 'block';
 
-        // Extract ingredients and measures from API response
-        for (let key in meal) {
-          if (key.startsWith('strIngredient') && meal[key]) { // Check if key is an ingredient
-            const measure = meal[`strMeasure${count}`]; // Get corresponding measure
-            ingredients.push(`${measure || ''} ${meal[key]}`); // Add to ingredients array
-            count++;
-          }
-        }
+  try {
+    // Llamada a la API para obtener información del platillo
+    const response = await fetch(`${API_URL}${dishName}`);
+    const data = await response.json();
 
-        displayResults(meal, ingredients); // Display results in UI
-      } else {
-        statusMessage.textContent = 'No results found. Try another dish.'; // No results message
-        resultsContainer.style.display = 'none'; // Hide results container
+    // Oculta el mensaje de carga
+    displayMessage.style.display = 'none';
+
+    // Si no se encuentra el platillo, muestra un mensaje de error
+    if (!data.meals) {
+      resultBox.innerHTML = '<p>No se encontraron resultados. Intenta con otro platillo.</p>';
+      resultBox.style.display = 'block';
+      return;
+    }
+
+    // Extrae el primer resultado (platillo)
+    const meal = data.meals[0];
+
+    // Obtiene los ingredientes y medidas
+    const ingredients = [];
+    for (let i = 1; i <= 20; i++) { // Itera sobre los posibles ingredientes
+      const ingredient = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+      if (ingredient && ingredient.trim()) { // Verifica si hay un ingrediente válido
+        ingredients.push(`${measure || ''} ${ingredient}.trim()`);
       }
-    })
-    .catch(() => {
-      statusMessage.textContent = 'Something went wrong. Please try again.'; // Error message
-    });
+    }
+
+    // Actualiza el contenido de la caja de resultados
+    renderMealDetails(meal, ingredients);
+  } catch (error) {
+    // Manejo de errores de la API
+    displayMessage.innerHTML = "Ocurrió un error al buscar el platillo. Intenta nuevamente.";
+    displayMessage.style.display = 'block';
+  }
 };
 
-// Display results in the UI
-const displayResults = (meal, ingredients) => {
-  statusMessage.style.display = 'none'; // Hide status message
-  resultsContainer.style.display = 'block'; // Show results container
-  resultsContainer.innerHTML = `
-    <div class="result-item">
-      <div class="result-image">
+/**
+ * Renderiza los detalles del platillo en el DOM
+ * @param {object} meal - Objeto que contiene la información del platillo
+ * @param {Array<string>} ingredients - Lista de ingredientes
+ */
+const renderMealDetails = (meal, ingredients) => {
+  // Estructura HTML para mostrar los detalles del platillo
+  resultBox.innerHTML = `
+    <div class="details">
+      <div class="meal-image">
         <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
       </div>
-      <div class="result-details">
-        <p class="dish-name">${meal.strMeal}</p>
-        <p class="dish-origin">${meal.strArea}</p>
+      <div class="meal-details">
+        <p class="meal-name">${meal.strMeal}</p>
+        <p class="meal-area">${meal.strArea}</p>
       </div>
-      <div class="ingredient-list">
-        <ul>${ingredients.map((item) => `<li>${item}</li>`).join('')}</ul>
+      <div class="ingredients-box">
+        <ul>
+          ${ingredients.map(ingredient =>` <li>${ingredient}</li>`).join('')}
+        </ul>
       </div>
     </div>
-  `; // Populate container with meal details and ingredients
+    <button class="view-recipe-btn" onclick="showRecipe()">Ver receta</button>
+  `;
+
+  // Actualiza las instrucciones de la receta
+  instructionBox.innerHTML = meal.strInstructions;
+
+  // Muestra la caja de resultados
+  resultBox.style.display = 'block';
 };
 
-// Close the recipe modal
-const closeRecipeModal = () => {
-  recipeModal.style.display = 'none'; // Hide the modal
+/**
+ * Muestra la caja de recetas
+ */
+const showRecipe = () => {
+  recipeBox.style.left = '0%'; // Mueve la caja al centro
 };
+
+/**
+ * Cierra la caja de recetas
+ */
+const closeRecipeBox = () => {
+  recipeBox.style.left = '-100%'; // Mueve la caja fuera de la vista
+};
+
+// Inicializa la búsqueda si hay un valor inicial en el cuadro de búsqueda
+if (userInput.value.trim()) {
+  getFood(userInput.value.trim());
+}

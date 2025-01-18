@@ -1,152 +1,210 @@
-/* Reinicio de estilos básicos para eliminar márgenes y paddings predeterminados */
+/* Reset general de márgenes, rellenos y el modelo de caja para todos los elementos */
 * {
-  margin: 0; /* Elimina el margen predeterminado */
-  padding: 0; /* Elimina el padding predeterminado */
-  box-sizing: border-box; /* Incluye bordes y padding en el ancho y alto de los elementos */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Estilo general del cuerpo del documento */
+/* Estilo general del cuerpo de la página */
 body {
-  background-color: #f9f9f9; /* Fondo gris claro para un diseño limpio */
-  font-family: 'Arial', sans-serif; /* Fuente sans-serif legible */
+  background-color: #f7f7f7; /* Color de fondo claro */
+  font-family: 'Arial', sans-serif; /* Fuente predeterminada */
+  color: #333; /* Color de texto principal */
 }
 
-/* Contenedor principal de la interfaz */
-.wrapper {
-  padding: 20px; /* Espaciado interno para separar contenido de los bordes */
-  background: white; /* Fondo blanco para contraste */
-  border-radius: 10px; /* Bordes redondeados para suavizar el diseño */
-  width: 100%; /* Asegura que ocupe el ancho completo */
-  max-width: 400px; /* Limita el ancho máximo a 400px */
-  margin: 50px auto; /* Centra el contenedor horizontal y verticalmente */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil para resaltar el elemento */
-}
-
-/* Contenedor para el cuadro de búsqueda y resultados */
-.search-container {
-  display: flex; /* Crea un contenedor flexible */
-  flex-direction: column; /* Alinea los elementos de forma vertical */
-  gap: 10px; /* Espacio entre los elementos */
-}
-
-/* Barra de búsqueda */
-.search-bar {
-  height: 40px; /* Altura fija de la barra */
-  width: 100%; /* Ocupa todo el ancho disponible */
-  padding-left: 15px; /* Espaciado interno a la izquierda para el texto */
-  border: 1px solid #ccc; /* Borde gris claro */
-  border-radius: 20px; /* Bordes redondeados */
-  font-size: 14px; /* Tamaño de fuente */
-}
-
-/* Color de texto para el placeholder dentro de la barra de búsqueda */
-.search-bar::placeholder {
-  color: #aaa; /* Color gris claro */
-}
-
-/* Contenedor de los resultados */
-.results-container {
-  margin-top: 20px; /* Espaciado superior */
-  display: flex; /* Crea un contenedor flexible */
-  flex-direction: column; /* Alinea los elementos en columna */
-  gap: 15px; /* Espacio entre los elementos */
-}
-
-/* Cada resultado mostrado */
-.result-item {
-  display: flex; /* Contenedor flexible para alineación horizontal */
-  align-items: center; /* Centra verticalmente los elementos */
-  gap: 15px; /* Espacio entre los elementos */
+/* Estilo del contenedor principal */
+.container {
+  padding: 20px; /* Espaciado interno */
+  padding-bottom: 30px; /* Espaciado adicional en la parte inferior */
   background: #fff; /* Fondo blanco */
   border-radius: 10px; /* Bordes redondeados */
-  padding: 10px; /* Espaciado interno */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+  width: 360px; /* Ancho del contenedor */
+  position: absolute; /* Posicionamiento relativo a la ventana */
+  top: 50%; /* Centrado vertical */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-50%, -50%); /* Ajuste para centrar completamente */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra del contenedor */
+  overflow: hidden; /* Ocultar contenido que sobresalga */
+}
+
+/* Estilo del cuadro de búsqueda */
+.container .search-box input {
+  all: unset; /* Reinicia estilos predeterminados */
+  height: 45px; /* Altura del cuadro de entrada */
+  width: 85%; /* Ancho del cuadro de entrada */
+  padding-left: 50px; /* Espaciado a la izquierda para el ícono */
+  padding-right: 10px; /* Espaciado interno a la derecha */
+  border: 2px solid #ccc; /* Borde inicial */
+  border-radius: 25px; /* Bordes redondeados */
+  font-size: 15px; /* Tamaño de fuente */
+  transition: border-color 0.3s ease; /* Transición para el color del borde */
+}
+
+/* Estilo del marcador de posición en el cuadro de búsqueda */
+.container .search-box input::placeholder {
+  font-size: 14px; /* Tamaño de fuente del marcador */
+  color: #aaa; /* Color del marcador */
+}
+
+/* Estilo del cuadro de búsqueda cuando está enfocado */
+.container .search-box input:focus {
+  border-color: #6c63ff; /* Cambia el color del borde */
+}
+
+/* Estilo del ícono de búsqueda */
+.container .fa-magnifying-glass {
+  color: #6c63ff; /* Color del ícono */
+  font-size: 18px; /* Tamaño del ícono */
+  position: absolute; /* Posicionamiento absoluto */
+  left: 35px; /* Espaciado desde la izquierda */
+  top: 35px; /* Espaciado desde la parte superior */
+}
+
+/* Mensaje de estado o resultados */
+.container .displaying-message {
+  text-align: center; /* Centrar el texto */
+  margin-top: 30px; /* Espaciado superior */
+  font-size: 14px; /* Tamaño del texto */
+  color: #666; /* Color del texto */
 }
 
 /* Imagen del plato */
-.result-image img {
-  width: 50px; /* Ancho fijo de la imagen */
-  height: 50px; /* Altura fija de la imagen */
-  border-radius: 50%; /* Hace la imagen circular */
-  object-fit: cover; /* Asegura que la imagen mantenga sus proporciones */
-  border: 2px solid #ddd; /* Borde gris claro */
+.container .meal-image {
+  height: 150px; /* Altura del contenedor */
+  width: 150px; /* Ancho del contenedor */
+  background: red; /* Fondo temporal */
+  border-radius: 100%; /* Forma circular */
+  margin-top: 15px; /* Espaciado superior */
+  position: absolute; /* Posicionamiento absoluto */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-50%, -50%); /* Ajuste de centrado */
+  margin-top: 90px; /* Espaciado adicional */
 }
 
-/* Contenedor de los detalles del resultado */
-.result-details {
-  flex: 1; /* Ocupa el espacio restante del contenedor */
+/* Imagen dentro del contenedor circular */
+.container .meal-image img {
+  height: 100%; /* Ocupa todo el contenedor */
+  width: 100%; /* Ocupa todo el contenedor */
+  border-radius: 100%; /* Forma circular */
 }
 
-/* Nombre del plato */
-.dish-name {
-  font-size: 16px; /* Tamaño de fuente más grande */
+/* Botón para ver receta */
+.container .view-recipe-btn {
+  all: unset; /* Reinicia estilos predeterminados */
+  margin-top: 230px; /* Espaciado superior */
+  background: #6c63ff; /* Fondo del botón */
+  border-radius: 25px; /* Bordes redondeados */
+  color: #fff; /* Color del texto */
   font-weight: bold; /* Texto en negrita */
-  margin-bottom: 5px; /* Espaciado inferior */
+  padding: 8px 16px; /* Espaciado interno */
+  cursor: pointer; /* Cursor de clic */
+  display: inline-block; /* Comportamiento en línea */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones */
 }
 
-/* Origen del plato */
-.dish-origin {
-  font-size: 12px; /* Texto más pequeño */
-  color: gray; /* Color gris */
+/* Hover del botón */
+.container .view-recipe-btn:hover {
+  background-color: #5348c7; /* Cambia el color del fondo */
+  transform: scale(1.05); /* Agranda ligeramente */
+}
+
+/* Detalles de la comida */
+.container .meal-details {
+  width: 220px; /* Ancho del contenedor */
+  border-radius: 25px; /* Bordes redondeados */
+  font-size: 15px; /* Tamaño de fuente */
+  background-color: #f0f0f0; /* Fondo gris claro */
+  text-align: center; /* Texto centrado */
+  padding: 10px; /* Espaciado interno */
+  position: absolute; /* Posicionamiento absoluto */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-50%, -50%); /* Ajuste de centrado */
+  margin-top: 170px; /* Espaciado superior */
+  border: 1px solid #6c63ff; /* Borde del contenedor */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Nombre de la comida */
+.container .meal-name {
+  font-weight: bold; /* Texto en negrita */
+  color: #6c63ff; /* Color del texto */
+  text-transform: uppercase; /* Texto en mayúsculas */
 }
 
 /* Lista de ingredientes */
-.ingredient-list ul {
-  list-style: none; /* Elimina los puntos de la lista */
-  padding: 0; /* Elimina el espaciado interno */
-  margin: 5px 0; /* Espaciado superior e inferior */
+.container .ingredients-box {
+  position: relative; /* Posición relativa */
+  top: 205px; /* Ajuste desde la parte superior */
 }
 
-/* Elementos individuales de la lista de ingredientes */
-.ingredient-list li {
-  font-size: 12px; /* Tamaño de texto pequeño */
-  color: #555; /* Color gris medio */
+.container .ingredients-box ul {
+  display: grid; /* Layout de cuadrícula */
+  grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+  gap: 10px; /* Espaciado entre elementos */
+  padding: 25px 0; /* Espaciado interno */
+  list-style-type: none; /* Sin estilo de lista */
 }
 
-/* Botón para ver más información */
-.view-button {
-  background-color: #007bff; /* Azul como color de fondo */
-  color: white; /* Texto en blanco */
-  border: none; /* Elimina el borde predeterminado */
-  border-radius: 20px; /* Bordes redondeados */
-  padding: 5px 15px; /* Espaciado interno */
-  font-size: 12px; /* Tamaño de fuente pequeño */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-}
-
-/* Cambio de color del botón al pasar el cursor */
-.view-button:hover {
-  background-color: #0056b3; /* Azul más oscuro */
-}
-
-/* Modal para mostrar la receta */
-.recipe-modal {
-  display: none; /* Oculta el modal por defecto */
-  position: fixed; /* Posición fija en la pantalla */
-  top: 10%; /* Se posiciona un 10% desde la parte superior */
-  left: 50%; /* Centra el modal horizontalmente */
-  transform: translate(-50%, 0); /* Ajusta para centrar el modal */
-  background: white; /* Fondo blanco */
-  padding: 20px; /* Espaciado interno */
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
-  width: 90%; /* Ancho del 90% de la pantalla */
-  max-width: 400px; /* Limita el ancho máximo a 400px */
-}
-
-/* Botón para cerrar el modal */
-.close-modal {
-  font-size: 18px; /* Tamaño grande del texto */
-  font-weight: bold; /* Texto en negrita */
-  color: #333; /* Color gris oscuro */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  float: right; /* Alinea el botón a la derecha */
-}
-
-/* Contenido del modal */
-.recipe-content {
-  margin-top: 20px; /* Espaciado superior */
+/* Elementos individuales de la lista */
+.container .ingredients-box li {
   font-size: 14px; /* Tamaño de fuente */
-  color: #555; /* Color gris medio */
-  line-height: 1.5; /* Altura de línea para mejor legibilidad */
+  background: #eef; /* Fondo claro */
+  border: 1px solid #ddd; /* Borde claro */
+  padding: 5px 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  text-align: center; /* Centrado de texto */
+  color: #333; /* Color del texto */
+  transition: background-color 0.3s ease; /* Transición */
+}
+
+/* Hover de los elementos de la lista */
+.container .ingredients-box li:hover {
+  background-color: #cce5ff; /* Cambio de fondo al pasar el cursor */
+}
+
+/* Caja de la receta */
+.container .recipe-box {
+  position: absolute; /* Posicionamiento absoluto */
+  top: 0; /* Alineación al inicio */
+  left: 0; /* Alineación a la izquierda */
+  background: #fff; /* Fondo blanco */
+  height: 100%; /* Ocupa toda la altura */
+  width: 100%; /* Ocupa todo el ancho */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 25px; /* Espaciado interno */
+  left: -100%; /* Fuera de la vista inicialmente */
+  transition: all 0.3s ease; /* Transición para animaciones */
+  overflow-y: auto; /* Scroll para contenido */
+}
+
+/* Botón de cierre */
+.container .recipe-box .close-btn {
+  height: 35px; /* Altura del botón */
+  width: 35px; /* Ancho del botón */
+  background: #6c63ff; /* Fondo */
+  border: 1px solid forestgreen; /* Borde verde */
+  color: #fff; /* Color del texto */
+  display: flex; /* Centra contenido */
+  justify-content: center; /* Centrado horizontal */
+  align-items: center; /* Centrado vertical */
+  border-radius: 100%; /* Forma circular */
+  float: right; /* Alineación a la derecha */
+  cursor: pointer; /* Cursor de clic */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones */
+}
+
+/* Hover del botón de cierre */
+.container .recipe-box .close-btn:hover {
+  background-color: #5348c7; /* Fondo más oscuro */
+  transform: scale(1.1); /* Agranda ligeramente */
+}
+
+/* Instrucciones */
+.container .recipe-box .Instructions {
+  position: relative; /* Posición relativa */
+  top: 5px; /* Ajuste desde la parte superior */
+  font-size: 1em; /* Tamaño de texto */
+  white-space: pre-wrap; /* Respeta saltos de línea */
+  word-wrap: break-word; /* Ajusta palabras largas */
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* Fuente */
 }
