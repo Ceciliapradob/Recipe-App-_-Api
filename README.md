@@ -5,7 +5,8 @@ Una aplicación web que te permite buscar recetas y obtener información detalla
 ---
 
 ## 📸 Vista del Proyecto
-![Captura de pantalla 2025-01-14 142953](https://github.com/user-attachments/assets/14228a4b-aaab-44ea-8c21-b5e946ec3ec2)
+![recipe-app](https://github.com/user-attachments/assets/7959f90b-e60a-41a6-ae10-b113dbf9d379)
+
 
 
 
